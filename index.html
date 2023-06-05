@@ -1,11 +1,124 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>首页</title>
+  <title>编辑模式和预览模式</title>
+  <style>
+    /* CSS样式 */
+    .sidebar {
+      width: 200px;
+      background-color: #f0f0f0;
+      padding: 20px;
+      box-sizing: border-box;
+      float: left;
+    }
+    
+    .nav-item {
+      margin-bottom: 10px;
+    }
+    
+    .nav-item a {
+      display: block;
+      text-decoration: none;
+      color: #333;
+      font-weight: bold;
+    }
+    
+    .content {
+      margin-left: 220px;
+    }
+    
+    .section {
+      padding: 20px;
+      margin-bottom: 20px;
+      background-color: #f0f0f0;
+      border: 1px solid #ccc;
+      display: none;
+    }
+    
+    .toolbar {
+      margin-bottom: 10px;
+    }
+    
+    .toolbar button {
+      margin-right: 5px;
+    }
+    
+    .text-input {
+      margin-bottom: 10px;
+    }
+  </style>
+  <script>
+    // JavaScript代码
+    function showSection(sectionId) {
+      // 隐藏所有的板块
+      var sections = document.getElementsByClassName("section");
+      for (var i = 0; i < sections.length; i++) {
+        sections[i].style.display = "none";
+      }
+      
+      // 显示选定的板块
+      var selectedSection = document.getElementById(sectionId);
+      if (selectedSection) {
+        selectedSection.style.display = "block";
+      }
+    }
+    
+    function confirmChanges() {
+      var inputText = document.getElementById("inputText").value; // 获取输入框的值
+      var previewDiv = document.getElementById("previewDiv");
+      var existingContent = previewDiv.innerHTML; // 获取预览区域的现有内容
+      
+      // 添加输入框的值和换行符到预览区域
+      previewDiv.innerHTML = existingContent + inputText + "<br>";
+      
+      // 清空输入框的值
+      document.getElementById("inputText").value = "";
+      
+      // 隐藏编辑模式，显示预览模式
+      showSection('previewMode');
+    }
+    
+    function cancelChanges() {
+      // 清空输入框的值
+      document.getElementById("inputText").value = "";
+      
+      // 隐藏编辑模式，显示预览模式
+      showSection('previewMode');
+    }
+  </script>
 </head>
 <body>
-  <h1>欢迎来到首页！</h1>
-  <p>这是一个示例的首页。</p>
-  <a href="about.html">点击这里查看关于页面</a>
+  <div class="sidebar">
+    <div class="nav-item">
+      <a href="#" onclick="showSection('editMode')">编辑模式</a>
+    </div>
+    <div class="nav-item">
+      <a href="#" onclick="showSection('previewMode')">预览模式</a>
+    </div>
+  </div>
+  
+  <div class="content">
+    <div id="editMode" class="section">
+      <h1>编辑模式</h1>
+      <div class="toolbar">
+        <button onclick="confirmChanges()">确认</button>
+        <button onclick="cancelChanges()">取消</button>
+      </div>
+      <div class="text-input">
+        <label for="inputText">文本输入框:</label>
+        <textarea id="inputText" rows="4" cols="50"></textarea>
+      </div>
+    </div>
+    
+    <div id="previewMode" class="section">
+      <h1>预览模式</h1>
+      <div id="previewDiv"></div>
+    </div>
+  </div>
+  
+  <script>
+    // 默认显示编辑模式
+    showSection('editMode');
+  </script>
 </body>
 </html>
